@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digirakshak | Tactical Grade</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Space+Mono&family=Inter:wght@400;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ff1c1c;
+            --accent: #00f2ff;
+            --bg: #020202;
+            --panel: rgba(8, 8, 8, 0.9);
+            --header-bg: rgba(2, 2, 2, 0.9);
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        /* --- RESET & LAYOUT --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background-color: var(--bg);
+            color: #fff;
+            font-family: 'Space Mono', monospace;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* --- HEADER --- */
+        header {
+            position: fixed;
+            top: 0; width: 100%;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--header-bg);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+        }
+
+        .nav-brand {
+            font-family: 'Syncopate', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: 4px;
+            color: #fff;
+            text-decoration: none;
+        }
+        .nav-brand span { color: var(--primary); }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #888;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+            text-shadow: 0 0 10px var(--primary);
+        }
+
+        /* --- MESH BACKGROUND --- */
+        .mesh {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: 
+                radial-gradient(circle at 10% 10%, rgba(0, 0, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 90% 90%, rgba(0, 242, 255, 0.05) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        /* --- MAIN CONTENT AREA --- */
+        main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 0 80px 0; /* Padding for fixed header and footer spacing */
+        }
+
+        .tilt-container {
+            perspective: 2000px;
+            width: 95vw;
+            max-width: 1400px;
+            height: 75vh;
+        }
+
+        .main-card {
+            position: relative;
+            width: 100%; height: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            background: var(--panel);
+            backdrop-filter: blur(40px);
+            border: 1px solid var(--border);
+            transform-style: preserve-3d;
+            transition: transform 0.15s ease-out;
+        }
+
+        /* --- CARD SECTIONS --- */
+        .visual-side {
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border-right: 1px solid var(--border);
+        }
+
+        .product-display {
+            display: flex;
+            justify-content: center;
+            transform: translateZ(80px);
+        }
+
+        .product-img { width: 75%; filter: drop-shadow(0 0 40px rgba(0,0,0,0.9)); }
+
+        .info-side { padding: 60px; display: flex; flex-direction: column; justify-content: center; }
+
+        .hero-title {
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(3rem, 6vw, 5.5rem);
+            line-height: 0.9;
+            letter-spacing: -4px;
+            margin-bottom: 20px;
+            background: linear-gradient(to bottom, #fff 40%, #444 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .description-box {
+            font-size: 0.9rem; color: #888;
+            margin-bottom: 40px; border-left: 2px solid var(--primary);
+            padding-left: 20px; line-height: 1.6;
+        }
+
+        .system-specs { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .spec-label { font-size: 9px; color: var(--primary); text-transform: uppercase; }
+        .spec-value { font-size: 1.1rem; font-family: 'Syncopate'; font-weight: 700; }
+
+        /* --- FOOTER --- */
+        footer {
+            width: 100%;
+            padding: 40px 50px;
+            background: rgba(0,0,0,0.95);
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 10px;
+            color: #555;
+            letter-spacing: 1px;
+        }
+
+        .footer-status { display: flex; gap: 20px; }
+        .footer-status span::before { content: '●'; color: var(--primary); margin-right: 5px; }
+
+        /* --- DECORATIVE CORNERS --- */
+        .corner { position: absolute; width: 15px; height: 15px; border: 2px solid var(--primary); }
+        .top-l { top: -1px; left: -1px; border-right: 0; border-bottom: 0; }
+        .top-r { top: -1px; right: -1px; border-left: 0; border-bottom: 0; }
+        .bot-l { bottom: -1px; left: -1px; border-right: 0; border-top: 0; }
+        .bot-r { bottom: -1px; right: -1px; border-left: 0; border-top: 0; }
+
+        @media (max-width: 1000px) {
+            header, footer { padding: 20px; flex-direction: column; gap: 15px; text-align: center; }
+            .nav-links { gap: 20px; }
+            .main-card { grid-template-columns: 1fr; height: auto; }
+            .tilt-container { height: auto; margin-top: 50px; }
+            main { padding: 100px 20px 40px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="#" class="nav-brand">DIGI<span>RAKSHAK</span></a>
+    <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="mains.html">Shop</a>
+        <a href="contactt.html">Contact</a>
+    </nav>
+</header>
+
+<div class="mesh"></div>
+
+<main>
+    <div class="tilt-container" id="tilt">
+        <div class="main-card">
+            <div class="corner top-l"></div>
+            <div class="corner top-r"></div>
+            <div class="corner bot-l"></div>
+            <div class="corner bot-r"></div>
+            
+            <div class="visual-side">
+                <div style="font-size: 10px; color: var(--primary); font-weight: bold;">[ PRODUCT OVERVIEW ]</div>
+                <div class="product-display">
+                    <img src="veil.jpeg" class="product-img" alt="Device">
+                </div>
+                <div style="font-size: 9px; opacity: 0.4;">ID: 0x992811 / AUTH: LEVEL_7</div>
+            </div>
+
+            <div class="info-side">
+                <h1 class="hero-title">DIGIRAKSHAK<br>Veil</h1>
+                <div class="description-box">
+                  The Digirakshak Veil is a stylish and discreet hair accessory that doubles as a powerful personal safety device, offering real-time GPS tracking, instant SOS alerts, and silent emergency notifications. Designed to blend seamlessly with everyday fashion, it provides protection without drawing attention, making it perfect for solo commutes, late-night walks, or travel. Lightweight, elegant, and AI-enabled, the Veil ensures that safety is always within reach, combining subtlety with cutting-edge technology.”
+                </div>
+                <div class="system-specs">
+                    <div class="spec-item"><span class="spec-label">Price</span><span class="spec-value">₹1000</span></div>
+                   
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <div>© 2026 DIGIRAKSHAK PROTOCOLS. ALL RIGHTS RESERVED.</div>
+    <div class="footer-status">
+        <span>ENCRYPTION ACTIVE</span>
+        <span>SAT-LINK CONNECTED</span>
+    </div>
+</footer>
+
+<script>
+    const card = document.querySelector('.main-card');
+    const container = document.querySelector('.tilt-container');
+
+    container.addEventListener('mousemove', (e) => {
+        let xAxis = (window.innerWidth / 2 - e.pageX) / 45;
+        let yAxis = (window.innerHeight / 2 - e.pageY) / 45;
+        card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+    });
+
+    container.addEventListener('mouseleave', () => {
+        card.style.transform = `rotateY(0deg) rotateX(0deg)`;
+        card.style.transition = "all 0.5s ease";
+    });
+
+    container.addEventListener('mouseenter', () => {
+        card.style.transition = "none";
+    });
+</script>
+
+</body>
+</html>
